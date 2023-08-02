@@ -1,6 +1,6 @@
 import React from 'react';
 import Styles from './ShoppingCart.module.css';
-
+import { FiShoppingCart } from 'react-icons/fi';
 interface Props {
 
 
@@ -20,15 +20,30 @@ class ShoppingCart extends React.Component<Props, State> {
         };
     }
 
+    HandleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        //console.log("e.target = ", e.target);
+        //console.log("e.currentTarget = ", e.currentTarget);
+
+        //just to verify the difference between 'target' and 'currentTarget'
+        if ((e.target as HTMLElement).nodeName === "SPAN") {
+            this.setState({ isOpen: !this.state.isOpen });
+        }
+
+
+    }
+
     render() {
         return (
-            
-//every time click on the button, the isOpen state will change. 
-//the isOpen is used to decide whether show shopping cart list
+
+            //every time click on the button, the isOpen state will change. 
+            //the isOpen is used to decide whether show shopping cart list
             <div className={Styles.cartContainer} >
                 <button className={Styles.button}
-                    onClick={() => {
-                        this.setState({ isOpen: !this.state.isOpen });  }} >2 items in Shopping Cart</button>
+                    onClick={this.HandleClick} >
+
+                    <FiShoppingCart />
+                    <span>2 items in Shopping Cart</span>
+                </button>
 
                 <div className={Styles.cartDropDown}
                     style={{ display: this.state.isOpen ? "block" : "none" }}   >
