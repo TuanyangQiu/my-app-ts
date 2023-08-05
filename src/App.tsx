@@ -27,9 +27,22 @@ const App: React.FC = (props) => {
   }, [count]);//[count] means only listen to the 'count' change
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then(response => response.json())
-      .then(data => setRobotGallery(data));
+    //cannot use async and await directly in useEffect, 
+    //but we can capsulate the async process as a function, then call this function.
+    
+    
+    //Asynchronize request
+    const fetchData = async function () {
+      const response = await fetch("https://jsonplaceholder.typicode.com/users");
+      const jsonData = await response.json();
+      setRobotGallery(jsonData);
+    }
+    fetchData();
+
+    //Synchronized request
+    // fetch("https://jsonplaceholder.typicode.com/users")
+    //   .then(response => response.json())
+    //   .then(data => setRobotGallery(data));
   }, []);
   //empty array [] equals to componentDidAmount
   //but if array is not given, the result equals to componentDidUpate, sometimes it will cause dead loop
