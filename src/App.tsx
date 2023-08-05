@@ -20,22 +20,29 @@ const App: React.FC = (props) => {
 
   const [count, setCount] = useState<number>(0);
   const [robotGallery, setRobotGallery] = useState<any>([]);
-
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     document.title = `click counts is ${count}`;
   }, [count]);//[count] means only listen to the 'count' change
 
   useEffect(() => {
+
+    setError("");
     //cannot use async and await directly in useEffect, 
     //but we can capsulate the async process as a function, then call this function.
-    
-    
+
+
     //Asynchronize request
     const fetchData = async function () {
-      const response = await fetch("https://jsonplaceholder.typicode.com/users");
-      const jsonData = await response.json();
-      setRobotGallery(jsonData);
+      try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/users");
+        const jsonData = await response.json();
+        setRobotGallery(jsonData);
+      } catch (e) {
+        if (e instanceof Error)
+          setError(e.message);
+      }
     }
     fetchData();
 
@@ -58,11 +65,14 @@ const App: React.FC = (props) => {
 
       <span>Count = {count}</span>
       <ShoppingCart />
-      <div className={styles.robotList}>
-        {
-          robotGallery.map(r => (<Robot id={r.id} name={r.name} email={r.email} />))
-        }
-      </div>
+      {
+        (error !== "") ? (<div>something wrong happened: {error}</div>) :
+          (<div className={styles.robotList}>
+            {
+              robotGallery.map(r => (<Robot id={r.id} name={r.name} email={r.email} />))
+            }
+          </div>)
+      }
     </div>
   );
 
