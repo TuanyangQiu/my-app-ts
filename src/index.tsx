@@ -4,12 +4,25 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+const defaultContextValue = {
+  userName: "Tuanyang Qiu"
+
+
+}
+
+export const appContext = React.createContext(defaultContextValue);
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    {/* inject context here */}
+    <appContext.Provider value={defaultContextValue}>
+      <App />
+    </appContext.Provider>
+
+
   </React.StrictMode>
 );
 
