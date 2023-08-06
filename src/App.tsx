@@ -6,7 +6,7 @@ import robots from './mockdata/robots.json';
 import Robot from './components/Robot';
 import styles from './App.module.css';
 import ShoppingCart from './components/ShoppingCart';
-
+import RobotDiscount from './components/RobotDiscount';
 
 interface Props { }
 
@@ -69,7 +69,12 @@ const App: React.FC = (props) => {
         (error !== "") ? (<div>something wrong happened: {error}</div>) :
           (<div className={styles.robotList}>
             {
-              robotGallery.map(r => (<Robot id={r.id} name={r.name} email={r.email} />))
+              robotGallery.map((r, index) =>
+                (index % 2 === 0) ?
+                  (<Robot id={r.id} name={r.name} email={r.email} />) :
+                  (<RobotDiscount id={r.id} name={r.name} email={r.email} />)
+
+              )
             }
           </div>)
       }
