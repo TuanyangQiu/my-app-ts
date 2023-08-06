@@ -1,20 +1,20 @@
 import React, { useContext } from "react";
 import Styles from './Robot.module.css';
 import { appContext, appSetStateContext } from '../AppState'
-import { withAddToCart } from "./AddToCart";
-
+//import { withAddToCart } from "./AddToCart";
+import { useAddToCart } from "./AddToCart";
 
 interface RobotProps {
     id: number,
     name: string,
     email: string,
-    addToCart: (id, name) => void;
+    //addToCart: (id, name) => void;
 }
 
 
-const RobotDiscount: React.FC<RobotProps> = ({ name, id, email, addToCart }) => {
+const RobotDiscount: React.FC<RobotProps> = ({ name, id, email }) => {
     const value = useContext(appContext);//useContext hooks
-
+    const addToCart = useAddToCart();
     return (
 
         //1: get data from context through context consumer
@@ -41,4 +41,4 @@ const RobotDiscount: React.FC<RobotProps> = ({ name, id, email, addToCart }) => 
 };
 
 
-export default withAddToCart(RobotDiscount);
+export default RobotDiscount;
