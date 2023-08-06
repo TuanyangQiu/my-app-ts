@@ -3,14 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-const defaultContextValue = {
-  userName: "Tuanyang Qiu"
-
-
-}
-
-export const appContext = React.createContext(defaultContextValue);
+import { AppStateProvider } from './AppState';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,9 +11,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     {/* inject context here */}
-    <appContext.Provider value={defaultContextValue}>
+    <AppStateProvider>
       <App />
-    </appContext.Provider>
+    </AppStateProvider>
 
 
   </React.StrictMode>

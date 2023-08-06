@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Styles from './Robot.module.css';
-import { appContext } from '../index'
+import { appContext, appSetStateContext } from '../AppState'
 
 
 interface RobotProps {
@@ -11,7 +11,20 @@ interface RobotProps {
 
 
 const Robot: React.FC<RobotProps> = ({ name, id, email }) => {
-    const context = useContext(appContext);//useContext hooks
+    const value = useContext(appContext);//useContext hooks
+    const setState = useContext(appSetStateContext);
+    const addToCart = () => {
+        if (setState) {
+            setState(state => {
+                return {
+                    ...state,
+                   // userName:"fdds",
+                    ShoppingCart: { items: [...state.ShoppingCart.items, { id, name }] }
+                }
+            })
+        }
+
+    }
     return (
 
         //1: get data from context through context consumer
@@ -29,7 +42,8 @@ const Robot: React.FC<RobotProps> = ({ name, id, email }) => {
             <img src={`https://robohash.org/${id}`} alt="robot" />
             <h2>{name}</h2>
             <p>{email}</p>
-            <p>Author: {context.userName}</p>
+            <p>Designer: {value.userName}</p>
+            <button onClick={addToCart}>Add to Cart</button>
         </div>
 
     );

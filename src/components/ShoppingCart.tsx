@@ -1,6 +1,8 @@
 import React from 'react';
 import Styles from './ShoppingCart.module.css';
 import { FiShoppingCart } from 'react-icons/fi';
+import { appContext, AppStateProvider } from '../AppState';
+
 interface Props {
 
 
@@ -28,31 +30,35 @@ class ShoppingCart extends React.Component<Props, State> {
         if ((e.target as HTMLElement).nodeName === "SPAN") {
             this.setState({ isOpen: !this.state.isOpen });
         }
-
-
     }
 
     render() {
         return (
+            <appContext.Consumer>
+                {(value) => {
+                    return <div className={Styles.cartContainer} >
+                        <button className={Styles.button}
+                            onClick={this.HandleClick} >
 
-            //every time click on the button, the isOpen state will change. 
-            //the isOpen is used to decide whether show shopping cart list
-            <div className={Styles.cartContainer} >
-                <button className={Styles.button}
-                    onClick={this.HandleClick} >
+                            <FiShoppingCart />
+                            <span>{value.ShoppingCart.items.length} items in Shopping Cart</span>
+                        </button>
 
-                    <FiShoppingCart />
-                    <span>2 items in Shopping Cart</span>
-                </button>
+                        <div className={Styles.cartDropDown}
+                            style={{ display: this.state.isOpen ? "block" : "none" }}   >
+                            <ul>
+                                {
+                                    value.ShoppingCart.items.map(i =>
+                                        <li>{i.name}</li>
+                                    )
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }}
+            </appContext.Consumer>
 
-                <div className={Styles.cartDropDown}
-                    style={{ display: this.state.isOpen ? "block" : "none" }}   >
-                    <ul>
-                        <li>Robot 1</li>
-                        <li>Robot 2</li>
-                    </ul>
-                </div>
-            </div>
+
         )
 
     }
